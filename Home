@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eclipse | The Best ROBLOX Serverside|</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Particle System */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #3b82f6;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 8s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) translateX(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) translateX(100px);
+            }
+        }
+
+
+
+        /* Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            padding: 12px 30px;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .navbar:hover {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .navbar a {
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navbar a:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            transform: translateY(-2px);
+        }
+
+        .logo {
+            width: 35px;
+            height: 35px;
+            
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo-placeholder {
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/png;base64,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');
+            background-size: 30px;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 8px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3)); }
+            to { filter: drop-shadow(0 0 40px rgba(59, 130, 246, 0.6)); }
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #cbd5e1;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(59, 130, 246, 0.1);
+            color: #60a5fa;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #ffffff, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            animation: rotate 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #3b82f6;
+            position: relative;
+            z-index: 2;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .icon-speed::before { content: "⚡"; }
+        .icon-shield::before { content: "🛡️"; }
+        .icon-globe::before { content: "🌐"; }
+        .icon-uptime::before { content: "🔄"; }
+        .icon-gear::before { content: "⚙️"; }
+        .icon-diamond::before { content: "💎"; }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 20px;
+            background: linear-gradient(180deg, transparent, rgba(59, 130, 246, 0.05));
+        }
+
+        .pricing h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #ffffff, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 25px;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.premium {
+            border: 2px solid rgba(147, 51, 234, 0.5);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.premium::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(59, 130, 246, 0.3);
+        }
+
+        .pricing-card.premium:hover {
+            transform: translateY(-10px) scale(1.07);
+        }
+
+        .plan-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+
+        .plan-period {
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+
+        .plan-features li {
+            padding: 10px 0;
+            color: #cbd5e1;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .plan-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        /* Scroll Animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-animate.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Reviews Section */
+        .reviews {
+            padding: 100px 20px;
+            background: rgba(15, 23, 42, 0.3);
+            position: relative;
+        }
+
+        .reviews h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .reviews-stats {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #3b82f6;
+            display: block;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .review-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .review-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .review-rating {
+            color: #fbbf24;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .review-text {
+            color: #e2e8f0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .reviewer {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .reviewer-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .reviewer-info h4 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .reviewer-info p {
+            color: #94a3b8;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+       
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #3b82f6;
+            transform: scale(1.2);
+        }
+
+        /* Showcase Section */
+        .showcase {
+            padding: 100px 20px;
+            background: rgba(59, 130, 246, 0.02);
+        }
+
+        .showcase h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .showcase p {
+            text-align: center;
+            color: #cbd5e1;
+            font-size: 1.2rem;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .video-embed {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            border: none;
+            margin-bottom: 20px;
+            background: #1e293b;
+        }
+
+        .video-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .video-description {
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        /* Community Section */
+        .community {
+            padding: 80px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
+            position: relative;
+        }
+
+        .community::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(147, 51, 234, 0.15) 0%, transparent 50%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .community-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .community h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .community p {
+            color: #cbd5e1;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .discord-btn {
+            background: linear-gradient(135deg, #5865f2, #4752c4);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(88, 101, 242, 0.4);
+        }
+
+        .discord-icon {
+            width: 24px;
+            height: 24px;
+        }
+        .footer {
+            padding: 60px 20px 30px;
+            text-align: center;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            background: rgba(15, 23, 42, 0.3);
+        }
+
+        .footer p {
+            color: #64748b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.1rem; }
+            .features h2, .pricing h2 { font-size: 2rem; }
+            .navbar { padding: 10px 20px; gap: 15px; }
+            .navbar a { padding: 6px 12px; font-size: 0.9rem; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .eclipse-container { 
+                top: 10%; 
+                right: 5%; 
+                width: 200px; 
+                height: 200px; 
+            }
+            .eclipse-container .sun { width: 120px; height: 120px; }
+            .eclipse-container .moon { width: 100px; height: 100px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-placeholder"></div>
+        </div>
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#showcase">Showcase</a>
+     
+        <a href="#reviews">Reviews</a>
+        <a href="#pricing">Pricing</a>
+      
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Eclipse Serverside</h1>
+            <p>Power your server-side scripts with seamless performance and unbreakable reliability.</p>
+            <div class="cta-buttons">
+                <a href="#pricing" class="btn btn-primary">Get Started</a>
+                <a href="#features" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2 class="scroll-animate">Why Choose Eclipse?</h2>
+        <div class="features-grid">
+            <div class="feature-card scroll-animate">
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h3>Lightning Fast</h3>
+                <p>Execute your scripts with blazing speed and minimal latency. Our optimized servers ensure peak performance.</p>
+            </div>
+            <div class="feature-card scroll-animate">
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h3>Secure & Safe</h3>
+                <p>Advanced security safeguards your game logs from any breach. Fully obfuscated with industry leading protection and reinforced by multiple backend integrity checks.</p>
+            </div>
+            <div class="feature-card scroll-animate">
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3>Global Users</h3>
+                <p>Trusted by hundreds of buyers across the globe to cheat.</p>
+            </div>
+            <div class="feature-card scroll-animate">
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23 12a11.05 11.05 0 0 0-22 0zm-5 7a3 3 0 0 0-9 0" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h3>24/7 Uptime</h3>
+                <p>Our powerful servers guarantee Eclipse is always up no downtime,</p>
+            </div>
+            <div class="feature-card scroll-animate">
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="3" fill="currentColor"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3>Easy Integration</h3>
+                <p>Purchase in seconds. Key delivered instantly. Easy to use from the start.</p>
+            </div>
+            <div class="feature-card scroll-animate">
+                <div class="feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 3h2l.09 1.09L10 10l1.91-5.91L12 3h2l3.09 7L18 3h2v18h-2l-3.09-7L13 20h-2l-.09-1.09L9 13l-1.91 5.91L7 21H6V3z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h3>Great Quality</h3>
+                <p>High quality games, unbeatable prices, gorgeous UI, and advanced AI only on Eclipse.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showcase Section -->
+    <section id="showcase" class="showcase">
+        <h2 class="scroll-animate">See Eclipse in Action</h2>
+        <p class="scroll-animate">Watch our community showcase Eclipse's powerful capabilities across different Roblox experiences.</p>
+        
+        <div class="videos-grid">
+            <div class="video-card scroll-animate">
+                <iframe class="video-embed" src="https://www.youtube.com/embed/IeHBl_gwNXo" title="Eclipse Speed Test" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="video-title">Shooting up roleplay game | Eclipse Serverside</div>
+                <div class="video-description">Today I will showcase Eclipse to shoot some kids on a roleplay game.</div>
+            </div>
+            
+            <div class="video-card scroll-animate">
+                <iframe class="video-embed" src="https://www.youtube.com/embed/Glhhk0sPu5Y" title="Security Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="video-title">ECLIPSE SERVERSIDE ROBLOX EXPLOIT</div>
+                <div class="video-description">#1 & AFFORDABLE | ROBLOX SERVERSIDE SHOWCASE 2025</div>
+            </div>
+            
+            <div class="video-card scroll-animate">
+                <iframe class="video-embed" src="https://www.youtube.com/embed/I89_9U51yBY" title="Game Compatibility" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="video-title">ECLIPSE SERVERSIDE | #1 & AFFORDABLE</div>
+                <div class="video-description">Explore how Eclipse works seamlessly across 10,000+ Roblox games.</div>
+            </div>
+            
+
+ <div class="video-card scroll-animate">
+                <iframe class="video-embed" src="https://www.youtube.com/embed/1adjI9_yFes" title="Game Compatibility" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="video-title">Eclipse V2 Roblox Serverside Review | Best Executor in 2025?</div>
+                <div class="video-description">In this video, I review Eclipse V2, a powerful Roblox serverside executor.</div>
+            </div>
+
+             <div class="video-card scroll-animate">
+                <iframe class="video-embed" src="https://www.youtube.com/embed/JMBSAwz56W4" title="Game Compatibility" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="video-title">Eclipse Serverside 2025 byfron bypass showcase Cheap</div>
+                <div class="video-description">Join Eclipse Serverside</div>
+            </div>
+
+            <div class="video-card scroll-animate">
+                <iframe class="video-embed" src="https://www.youtube.com/embed/QGaObKmCphQ" title="API Tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="video-title"> Roblox Eclipse Serverside Showcase </div>
+                <div class="video-description">Purchase eclipse now</div>
+            </div>
+        </div>
+    </section>
+
+   
+
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="reviews">
+        <h2 class="scroll-animate">What Our Users Say</h2>
+        <div class="reviews-stats scroll-animate">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">200+</span>
+                    <span class="stat-label">Satisfied Buyers</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">600+</span>
+                    <span class="stat-label">Models</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">Games</span>
+                </div>
+            </div>
+        </div>
+
+     
+   <div class="reviews-grid">
+  <div class="review-card scroll-animate">
+    <div class="review-rating">★★★★★</div>
+    <div class="review-text">"6.706e+8/10 best ss there is, ion speed is incredible and I've never had any detection issues. Worth every penny!"</div>
+    <div class="reviewer">
+      <img class="reviewer-avatar" src="https://cdn.discordapp.com/avatars/783035618158444574/0c1a7cefca0fb35de334cb34d59de584?size=1024" alt="FestiveBADR Avatar" />
+      <div class="reviewer-info">
+        <h4>FestiveBADR</h4>
+        <p>Premium User • 1 month ago</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-card scroll-animate">
+    <div class="review-rating">★★★★★</div>
+    <div class="review-text">"10/10 Good Gui, Good Games"</div>
+    <div class="reviewer">
+      <img class="reviewer-avatar" src="https://cdn.discordapp.com/avatars/882959457464770650/50311cdb3a9c0cc97eff4a2e292e12e9?size=1024" alt="clarencelaleng234 Avatar" />
+      <div class="reviewer-info">
+        <h4>clarencelaleng234</h4>
+        <p>Premium User • 1 month ago</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-card scroll-animate">
+    <div class="review-rating">★★★★★</div>
+    <div class="review-text">"100/10 high quality games"</div>
+    <div class="reviewer">
+      <img class="reviewer-avatar" src="https://cdn.discordapp.com/avatars/1373039542172385432/cb47c4ddf67150fd4c58561af3c89ae0?size=1024" alt="gator_gb Avatar" />
+      <div class="reviewer-info">
+        <h4>gator_gb</h4>
+        <p>Premium User • 1 month ago</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+            
+            
+            
+    </section>
+
+    <!-- Community Section -->
+   <section class="community">
+   <div class="community-content scroll-animate" id="community-box">
+    <h2>Join Our Community</h2>
+    <p>Connect with 1000+ members, share scripts, get support, and stay updated with the latest features and updates.</p>
+    <a href="#" class="discord-btn">
+        <img class="discord-icon" src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/discord-round-color-icon.png" alt="Discord Icon" />
+        Join Discord Community
+    </a>
+</div>
+
+<script>
+    document.getElementById('community-box').addEventListener('click', function () {
+        window.open('https://discord.gg/robloxcheat', '_blank');
+    });
+</script>
+
+</section>
+
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <h2 class="scroll-animate">Choose Your Plan</h2>
+        <div class="pricing-grid">
+            <div class="pricing-card scroll-animate">
+                <div class="plan-name">Standard</div>
+                <div class="plan-price">£5.00</div>
+                <div class="plan-period">lifetime</div>
+                <ul class="plan-features">
+                    <li>Fast script execution</li>
+                    <li>Great scripts</li>
+                    <li>Great Games</li>
+                    <li>Restricted TOS</li>
+                    
+                </ul>
+                <a href="https://eclipseutilities.bgng.io/product/standardeclipse" class="btn btn-secondary">Choose Standard</a>
+
+            </div>
+            <div class="pricing-card premium scroll-animate">
+                <div class="plan-name">Premium</div>
+                <div class="plan-price">£10.00</div>
+                <div class="plan-period">lifetime</div>
+                <ul class="plan-features">
+                    <li>Fast script execution</li>
+                    <li>Great scripts</li>
+                    <li>Great Games</li>
+                    <li>Less Restricted TOS</li>
+                     <li>Mass killing allowed</li>
+                      <li>More lenient behavior rules</li>
+                       <li>Advanced script access</li>
+                       <li>Priority support</li>
+                </ul>
+                 <a href="https://eclipseutilities.bgng.io/product/premiumeclipse"  class="btn btn-primary">Choose Premium</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div style="max-width: 1200px; margin: 0 auto;">
+          
+              
+
+            <div style="text-align: center; padding-top: 30px; border-top: 1px solid rgba(59, 130, 246, 0.2);">
+                <p>&copy; 2025 Eclipse Serverside. All rights reserved. | Experience the future of script execution.</p>
+            </div>
+ 
+    </footer>
+
+    <script>
+        // Create particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize particles
+        createParticles();
+
+        // Slideshow functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const indicators = document.querySelectorAll('.indicator');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+
+        // Smooth scrolling
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Auto advance slideshow
+        setInterval(nextSlide, 3000);
+
+        // Manual slide control
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-animate').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(15, 23, 42, 0.9)';
+            } else {
+                navbar.style.background = 'rgba(15, 23, 42, 0.6)';
+            }
+        });
+
+        // Add staggered animation to feature cards
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.2}s`;
+        });
+
+        // Pricing card interactions
+        const pricingCards = document.querySelectorAll('.pricing-card');
+        pricingCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                pricingCards.forEach(otherCard => {
+                    if (otherCard !== card) {
+                        otherCard.style.opacity = '0.7';
+                    }
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                pricingCards.forEach(otherCard => {
+                    otherCard.style.opacity = '1';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
